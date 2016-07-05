@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Le Réseau social</title>
+    <script src="https://cdn.socket.io/socket.io-1.0.0.js"> </script>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/stylesheet.css">
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.2.min.js"></script>
+    <script src="https://cdn.tinymce.com/4/tinymce.min.js"> </script>
+    <script src="../Asset/profil.js"></script>
+    <script src="../Asset/notification.js"></script>
+    <script src="../Asset/listUsers.js"></script>
+    <script src="../Asset/listFriends.js"></script>
+    <script src="../Asset/wallFriend.js"></script>
+    <script src="../Asset/script.js"></script>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar navbar-default">
+        <div class="container-fluid"></div>
+        <div class="navbar-header">
+          <p class="navbar-text navbar-left"><strong>NoyzBook de : </strong><a href="/" title="Page d'Accueil" class="navbar-link">Se déconnecter</a></p>
+        </div>
+        <div id="actionBar"></div>
+        <div id="userbar">
+          <p> <a href="myprofil">Mon profil</a></p>
+          <p><a href="notifications">Notification</a></p>
+          <p> <a href="listUsers">Ajouter utilisateurs</a></p>
+          <p><a href="listFriends">Liste d'amis</a></p>
+          <p> <a href="privateMessage">Message privée</a></p>
+          <p> <a href="privateMessage">Tchat</a>
+          </p>
+        </div>
+      </nav>
+    </header>
+    <section>
+      <div class="imgProfil"><img class="profilImg">
+        <form action="/loadProfilPicture" method="POST" enctype="multipart/form-data" class="formImgProfil">
+          <input type="file" name="displayImage" id="urlImg">
+          <input type="submit" name="submitImg" id="submitImg" value="changer">
+        </form>
+      </div><a href="/edition">
+        <p class="edit">Publier article sur mon mur</p></a>
+      <ul class="messageContainer"></ul>
+    </section>
+  </body>
+</html>

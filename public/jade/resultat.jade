@@ -1,0 +1,11 @@
+extends layout.jade
+block title
+	h1 Base de données velib
+	h2 Information concernant la base de données
+
+
+block content
+	include test2.jade
+		each values in datas
+			p #{values.fields.name}
+

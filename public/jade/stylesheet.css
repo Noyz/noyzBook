@@ -1,0 +1,13 @@
+body{
+	background-image : url('heart.png');
+	background-size: 20px 20px;
+	background-repeat:no-repeat;
+}
+
+#footer{
+	border:1px solid black;
+	height:100px;
+	width:100%;
+	background-color:green;
+	vertical-align:100%;
+}

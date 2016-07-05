@@ -1,0 +1,40 @@
+head
+        meta(charset='utf-8')
+        title Le blog de l'actualité des jeux STEAM
+        link(rel='stylesheet', href='/css/stylesheet.css')
+        link(rel='stylesheet', href='/bootstrap.min.css')
+        script(src='/script.js')
+        script(src='/bootstrap.min.js')
+    body
+        header
+            nav.navbar.navbar-default
+             .container-fluid
+              .navbar-header
+                p.navbar-text.navbar-left
+                  strong Le blog de 
+                  a.navbar-link(href='#') Julian NOYON
+                ul#menu
+                  li
+                    a(href='/') Accueil 
+                  li 
+                    a(href='/article') Article
+                  li 
+                    a(href='/edition') Edition
+              form.form-inline(style='float:right;padding-top:10px')
+                .form-group
+                  label.sr-only(for='exampleInputUsername') Username
+                  input#exampleInputUsername.form-control(type='text', placeholder='username')
+                .form-group
+                  label.sr-only(for='exampleInputPassword3') Password
+                  input#exampleInputPassword3.form-control(type='password', placeholder='Password')
+                .checkbox
+                  label
+                    input(type='checkbox')
+                    Se souvenir de moi!
+                    p
+                      a(href='inscription.html') Pas encore inscrit?
+                button.btn.btn-default(type='submit') Se connecter
+        section
+          div#contenu
+            div
+             

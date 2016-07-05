@@ -1,0 +1,462 @@
+/**** Layout Header ****/
+body {
+  background-repeat: repeat;
+  background-color: #f8f8f8;
+}
+
+section {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  height: 100%;
+}
+
+.contenu {
+  padding: 3%;
+  color: black;
+  width: 80%;
+  border-radius: 5px;
+  background-color: white;
+  height: auto;
+  border-radius: 5px;
+  box-shadow: 4px 4px 6px #DDD;
+  margin: 0 auto;
+  margin-top: 5px;
+}
+
+#menu {
+  margin-left: 200px;
+  line-height: 50px;
+}
+
+#userbar {
+  float: right;
+  padding-right: 20px;
+}
+
+#userbar p {
+  float: left;
+  margin-right: 10px;
+}
+
+#userbar img {
+  height: 40px;
+  width: auto;
+}
+
+#userbar img:hover {
+  cursor: pointer;
+}
+
+#actionBar{
+  float:left;
+  margin-left:17%;
+}
+
+.profil {
+  margin-left: 5px;
+}
+
+ul {
+  list-style: none;
+}
+
+.navbar {
+  margin-bottom: 0px !important;
+  background-color: white;
+}
+
+.navbar-text {
+  margin:0;
+  background-color: white;
+}
+
+.navbar strong {
+  margin-right: 5px;
+}
+
+.navbar img {
+  height: 30px;
+  width: auto;
+}
+
+.ticket {
+  height: 400px;
+  width: 1000px;
+  border: 1px solid black;
+  margin: auto;
+  margin-bottom: 20px;
+  color: white;
+}
+
+.entete {
+  height: 30px;
+  width: 100%;
+  border: 1px solid black;
+  text-align: center;
+  line-height: 25px;
+}
+
+.presentation {
+  height: 100px;
+  margin: 15px;
+}
+
+.presentation img {
+  float: left;
+  margin-right: 30px;
+}
+
+.presentation p {
+  line-height: 15px;
+}
+
+.trailer {
+  margin: 0 auto;
+}
+
+.login {
+  float: right;
+  width: 700px;
+}
+
+.login .form-group {
+  margin-right: 10px;
+}
+
+#menuInfo {
+  background-color: white;
+  width: 250px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/*****  Main page ****/
+#register {
+  text-align: center;
+}
+
+#register p {
+  display: inline-block;
+  margin-left: 2%;
+}
+
+#register p:hover {
+  cursor: pointer;
+}
+
+.introTxt {
+  text-align: center;
+}
+
+.connexionButton {
+  text-align: center;
+  margin: 0px;
+  width: 8%;
+  border: 1px solid #d3d3d3;
+  background-color: #f8f8f8;
+  color: #767676;
+  margin-bottom: 5px;
+  box-shadow: 1px 1px 6px #DDD;
+}
+
+.usernameMain {
+  float: left;
+}
+
+#login {
+  padding: 3%;
+  color: black;
+  width: 300px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 30em;
+  height: 18em;
+  margin-top: -9em;
+  /*set to a negative number 1/2 of your height*/
+  margin-left: -15em;
+  /*set to a negative number 1/2 of your width*/
+  border: 1px solid #ccc;
+  background-color: #e7e7e7;
+  display: none;
+  border-radius: 5px;
+  box-shadow: 4px 4px 6px #888888;
+  height: auto;
+}
+
+#subscription {
+  padding: 3%;
+  color: black;
+  width: 300px;
+  border: 1px solid #ccc;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 30em;
+  height: 18em;
+  margin-top: -9em;
+  /*set to a negative number 1/2 of your height*/
+  margin-left: -15em;
+  /*set to a negative number 1/2 of your width*/
+  border-radius: 5px;
+  background-color: #e7e7e7;
+  display: none;
+  height: auto;
+  border-radius: 5px;
+  box-shadow: 4px 4px 6px #888888;
+}
+
+.errorSub {
+  display: none;
+  color: red;
+}
+
+.errorLog {
+  display: none;
+  color: red;
+}
+
+.anonymeBlock {
+  text-align: center;
+}
+
+/*****  Page Profil ****/
+.imgProfil {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  padding: 10px;
+}
+
+.imgProfil img {
+  height: 100px;
+  width: auto;
+  padding-top: 3%;
+}
+
+.imgProfil input {
+  width: 55%;
+  margin-top: 5px;
+}
+
+.contenuProfil {
+  padding: 3%;
+  color: black;
+  width: 80%;
+  border-radius: 5px;
+  background-color: white;
+  height: auto;
+  border-radius: 5px;
+  box-shadow: 4px 4px 6px #DDD;
+  margin: 0 auto;
+  margin-top: 5px;
+  border-radius: 0px;
+}
+
+.edit {
+  text-align: center;
+}
+
+.messageContainer li {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.articleUser {
+  padding: 3%;
+  color: black;
+  width: 80%;
+  border-radius: 5px;
+  background-color: white;
+  height: auto;
+  border-radius: 5px;
+  box-shadow: 4px 4px 6px #DDD;
+  margin: 0 auto;
+  margin-top: 5px;
+  width: 60%;
+}
+
+.senderImg {
+  height: 30px;
+  float: left;
+  margin-right: 10px;
+}
+
+.senderIdentity {
+  margin: 0 10px 30px 0;
+}
+
+/*****  Page Notification ****/
+.notificationUser {
+  padding: 3%;
+  color: black;
+  width: 80%;
+  border-radius: 5px;
+  background-color: white;
+  height: auto;
+  border-radius: 5px;
+  box-shadow: 4px 4px 6px #DDD;
+  margin: 0 auto;
+  margin-top: 5px;
+  text-align: center;
+}
+
+.actionNotification {
+  text-align: center;
+}
+
+.actionNotification .agreeFriend {
+  margin-right: 50px;
+}
+
+/*****  Page Edition ****/
+.redaction {
+  padding: 3%;
+  color: black;
+  width: 80%;
+  border-radius: 5px;
+  background-color: white;
+  height: auto;
+  border-radius: 5px;
+  box-shadow: 4px 4px 6px #DDD;
+  margin: 0 auto;
+  margin-top: 5px;
+}
+
+input[name="submitMessage"] {
+  margin-top: 5px;
+  padding: 5px 10px;
+}
+
+/*****  Page listUsers ****/
+.contenuListUsers {
+  padding: 3%;
+  color: black;
+  width: 80%;
+  border-radius: 5px;
+  background-color: white;
+  height: auto;
+  border-radius: 5px;
+  box-shadow: 4px 4px 6px #DDD;
+  margin: 0 auto;
+  margin-top: 5px;
+  width: 60%;
+  text-align: center;
+}
+
+.contenuListUsers li {
+  margin-bottom: 3%;
+}
+
+.contenuListUsers li p:hover {
+  cursor: pointer;
+}
+
+.contenuListUsers .nameUser {
+  display: inline-block;
+  margin-right: 30px;
+}
+
+.contenuListUsers .contenuUser {
+  width: 40%;
+  border: 1px solid blue;
+  margin: 0 auto;
+}
+
+.contenuListUsers .pictureUser {
+  display: inline;
+}
+
+.contenuListUsers .pictureUser img {
+  height: 100px;
+  width: 100px;
+  border-radius: 5px;
+}
+
+.contenuListUsers .updateUser {
+  display: inline-block;
+  margin: 0;
+}
+
+.contenuListUsers .addUser {
+  margin-right: 30px;
+  margin: 0;
+}
+
+/*****  Page listFriends ****/
+.contenuListFriends {
+  text-align: center;
+}
+
+.contenuListFriends li {
+  margin-bottom: 3%;
+}
+
+.contenuListFriends li p:hover {
+  cursor: pointer;
+}
+
+.contenuListFriends .nameFriend {
+  display: inline-block;
+  margin-right: 30px;
+}
+
+.contenuListFriends .contenuFriend {
+  padding: 3%;
+  color: black;
+  width: 80%;
+  border-radius: 5px;
+  background-color: white;
+  height: auto;
+  border-radius: 5px;
+  box-shadow: 4px 4px 6px #DDD;
+  margin: 0 auto;
+  margin-top: 5px;
+  width: 40%;
+}
+
+.contenuListFriends .contenuFriend img {
+  width: 160px;
+  height: auto;
+}
+
+.contenuListFriends .pictureFriend {
+  display: inline-block;
+  margin: 0;
+}
+
+.contenuListFriends .updateFriend {
+  display: inline-block;
+  margin: 0;
+}
+
+.contenuListFriends .addFriend {
+  margin-right: 30px;
+  margin: 0;
+}
+
+/*****  Page privateMessage ****/
+.container {
+  padding: 3%;
+  color: black;
+  width: 80%;
+  border-radius: 5px;
+  background-color: white;
+  height: auto;
+  border-radius: 5px;
+  box-shadow: 4px 4px 6px #DDD;
+  margin: 0 auto;
+  margin-top: 5px;
+}
+
+.contactPM{
+  
+}
+
+/**** footer ****/
+.clearfix {
+  clear: both;
+}

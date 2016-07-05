@@ -1,0 +1,16 @@
+//- layout.jade
+doctype html
+html
+	head
+		meta(charset='utf-8')
+		link(rel='stylesheet', href='public/jade/stylesheet.css') 
+		block title
+			title Default title
+	body
+		block content
+
+		div#session Votre document à été consulté #{nbrSession}
+
+	footer
+		block footer
+			div#footer 

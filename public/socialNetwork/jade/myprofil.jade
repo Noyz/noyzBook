@@ -1,0 +1,13 @@
+extends layoutHeader.jade
+block content
+  section
+    div.imgProfil
+        img.profilImg
+        form.formImgProfil(action="/upload" method="POST"  enctype="multipart/form-data")
+            //- input.pictureLink(type='text', name="pictureLink", id="imgLink", placeholder="Insérer une URL" )
+            input(type="file", name="image", id="urlImg")
+            input(type="submit", name="submitImg", id="submitImg" value="changer")    
+    a(href="/edition")
+      p.edit Publier article sur mon mur
+    ul.messageContainer
+          

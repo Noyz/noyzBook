@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Le Réseau social</title>
+    <script src="https://cdn.socket.io/socket.io-1.0.0.js"> </script>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/stylesheet.css">
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.2.min.js"></script>
+    <script src="../Asset/script.js"></script>
+    <body>
+      <header>
+        <nav class="navbar navbar-default">
+          <div class="container-fluid">
+            <p class="introTxt">Bienvenue sur le réseau social révolutionaire</p>
+            <div id="register"><a class="subscriptionMain">
+                <p class="connexionButton subButton">Inscription</p></a><a class="loginMain">
+                <p class="connexionButton logButton">Connexion                    </p></a></div>
+          </div>
+        </nav>
+      </header>
+      <section>
+        <div class="contenu mainPage">         
+          <div class="pannelMain">
+            <div id="login">
+              <h1e>Connexion</h1e>
+              <form id="formLog" metod="POST" action="/connexionToProfil" novalidate>
+                <p>Veuillez entrez vos identifiants de connexion</p>
+                <p class="usernameMain">Pseudo : </p>
+                <input type="text" name="usernameLog" style="float:right" class="field">
+                <div class="clearfix"> </div>
+                <p class="passwordMain">Mot de passe : 
+                  <input type="password" name="passwordLog" style="float:right" class="field">
+                </p>
+                <p class="errorLog">  </p>
+                <p>
+                  <input type="submit" value="Se connecter !" style="color:black">
+                </p>
+              </form>
+            </div>
+            <div id="subscription">
+              <h1 style="text-align:center;margin-top:0px">Inscription</h1>
+              <form id="formSub" metod="POST" action="/connexionToProfil" novalidate>
+                <p>Veuillez entrez vos informations d'inscription </p>
+                <p class="usernameMain">username : </p>
+                <input type="text" name="usernameSub" style="float:right">
+                <div class="clearfix">   </div>
+                <p>mail : 
+                  <input type="mail" name="mailSub" style="float:right">
+                </p>
+                <p>mot de passe: 
+                  <input type="password" name="passwordSub" style="float:right">
+                </p>
+                <p class="errorSub">       </p>
+                <p>
+                  <input type="submit" value="Se connecter !" style="color:black">
+                </p>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+    </body>
+  </head>
+</html>

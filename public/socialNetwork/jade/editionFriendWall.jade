@@ -1,0 +1,10 @@
+extends layoutHeader
+block content
+  section
+    div#contenu
+      div.redaction
+          P Publier un article sur mon mur
+          form#editorFriendWall
+            textarea(name="contenuArticle" placeholder="Ecrivez votre message !")
+              p   
+            input(type="submit" value="Envoyer" name="submitMessage")

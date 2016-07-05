@@ -1,0 +1,23 @@
+extends layout.jade
+
+block title
+	h1 Page de formulaire
+	h2 Il s'agit de la page du formulaire
+
+
+block content
+	include test2.jade
+
+	form(action='/reponse', method="POST")
+		label nom :
+			input(type='text', name='nom')
+		br
+		br
+		label prenom : 
+			input(type='text', name='prenom')
+		br
+		br
+		label Adresse mail :  
+			input(type='email', name='mail')
+
+		input(type='submit', value='Touche moi!!')

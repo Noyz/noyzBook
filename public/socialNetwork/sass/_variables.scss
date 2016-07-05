@@ -1,0 +1,20 @@
+$noir : #000;
+$mainColor:#f8f8f8; 
+@mixin widthContent() {
+  	padding:3%;
+	color:black;
+	width:80%;
+	// border:1px solid #ccc;
+    border-radius:5px ;
+    background-color:white;
+	height:auto;
+	border-radius:5px;
+	box-shadow: 4px 4px 6px #DDD;
+	margin:0 auto;
+	margin-top:5px;
+}
+
+@mixin imageFormat(){
+	width:160px;
+	height:auto;
+}

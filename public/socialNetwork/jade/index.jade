@@ -1,0 +1,23 @@
+extends layoutHeader.jade
+block content
+  section
+    div.contenu.mainPage          
+      p(style='text-align:center') Accueil
+        each values in datas
+          div.ticket
+            div.entete
+              p #{values.nom} 
+            div.presentation  
+              img.imgJeu(src='../img/#{values.image}')
+              p Prix : #{values.prix}
+              p OS : #{values.systemRequirement.OS}
+              p Tag : #{values.tag}
+               p Evaluation :  #{values.evaluations} positive
+             div.apercu(style='padding:10px')
+               p Aperçu d'articles :
+               br
+               p  #{values.apercu}
+               br
+               br
+               p(style='padding:10px') Lire la suite... 
+        

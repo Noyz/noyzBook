@@ -1,0 +1,57 @@
+doctype html
+html
+ head
+    meta(charset='utf-8')
+    title Le Réseau social
+    script(src='https://cdn.socket.io/socket.io-1.0.0.js') 
+    link(rel='stylesheet', href='../css/bootstrap.min.css')
+    link(rel='stylesheet', href='../css/stylesheet.css')
+    script(src='http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.2.min.js')
+    script(src='../Asset/script.js')
+    //- script(src='Asset/socket.io.js') 
+    body
+        header
+            nav.navbar.navbar-default
+              .container-fluid
+                p.introTxt Bienvenue sur le réseau social révolutionaire
+                div#register
+                  a.subscriptionMain
+                    p.connexionButton.subButton Inscription
+                  a.loginMain
+                    p.connexionButton.logButton Connexion                    
+        section
+            div.contenu.mainPage          
+              div.pannelMain
+                div#login
+                  h1e Connexion
+                  form#formLog(metod="POST" action="/connexionToProfil" novalidate)
+                    p Veuillez entrez vos identifiants de connexion
+                    p.usernameMain
+                        | Pseudo : 
+                      input.field(type='text', name='usernameLog', style="float:right")
+                    div.clearfix  
+                    p.passwordMain
+                      | Mot de passe : 
+                      input.field(type='password', name='passwordLog',style="float:right")
+                    p.errorLog   
+                    p
+                      input(type='submit', value='Se connecter !' style="color:black")
+                div#subscription
+                  h1(style="text-align:center;margin-top:0px") Inscription
+                  form#formSub(metod="POST" action="/connexionToProfil" novalidate)
+                    p Veuillez entrez vos informations d'inscription 
+                    p.usernameMain
+                        | username : 
+                      input(type='text', name='usernameSub', style="float:right")
+                    div.clearfix    
+                    p
+                      | mail : 
+                      input(type='mail', name='mailSub',  style="float:right")
+                    p
+                      | mot de passe: 
+                      input(type='password', name='passwordSub',style="float:right")
+                    p.errorSub        
+                    p
+                      input(type='submit', value='Se connecter !' style="color:black")
+                div.anonymeBlock 
+                  p Se connecter en anonyme        
