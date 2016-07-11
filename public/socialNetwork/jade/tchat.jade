@@ -1,4 +1,13 @@
 extends layoutHeader
 block content
-  div.container
-  	
+    div.container
+        p Communiquez avec vos amis!
+        div.chatWindow
+        div.contactOnline
+            ul.containerOnline
+        div(style="clear:both")
+        div.chatEditor
+            form#sendMessageForm
+                textarea(style="width:80%", id="messageBox")
+                input(type="submit")
+    

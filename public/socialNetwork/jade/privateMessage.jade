@@ -1,5 +1,13 @@
 extends layoutHeader
 block content
-	div.container
-		div.contactPM
-			ul.containerContact
+    div.contactPM
+        p Contact : 
+        ul.containerContact
+    div.container
+        div.containerPM
+            p Votre historique de conversation avec : 
+            ul.containerPrivateMessage
+        div.editorPM
+        form.privateMessagesPageEditorForm
+          textarea
+          input(type="submit")

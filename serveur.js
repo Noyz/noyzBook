@@ -14,25 +14,28 @@ var httpServer = http.createServer();
 var router = express.Router(); 
 var mongo = require('mongodb');
 var server = require('http').Server(app);
-var io = require('socket.io')(server, {origins:'localhost:5050*'});
+var io = require('socket.io').listen(server);
 var user = {};
 var maDb;
 var today;
+var userConnected = [];
 var multer = require('multer');
+const socketIo = require('socket.io');
+var IOServer = socketIo(httpServer);
 setInterval(function(){
-var objToday = new Date(),
-    weekday = new Array('Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'),
-    dayOfWeek = weekday[objToday.getDay()],
-    domEnder = new Array( '', '', '', '', '', '', '', '', '', '' ),
-    dayOfMonth = today + (objToday.getDate() < 10) ? '0' + objToday.getDate() + domEnder[objToday.getDate()] : objToday.getDate() + domEnder[parseFloat(("" + objToday.getDate()).substr(("" + objToday.getDate()).length - 1))],
-    months = new Array('Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'),
-    curMonth = months[objToday.getMonth()],
-    curYear = objToday.getFullYear(),
-    curHour = objToday.getHours() > 12 ? objToday.getHours() - 12 : (objToday.getHours() < 10 ? "0" + objToday.getHours() : objToday.getHours()),
-    curMinute = objToday.getMinutes() < 10 ? "0" + objToday.getMinutes() : objToday.getMinutes(),
-    curSeconds = objToday.getSeconds() < 10 ? "0" + objToday.getSeconds() : objToday.getSeconds(),
-    curMeridiem = objToday.getHours() > 12 ? "PM" : "AM";
-	today = dayOfWeek + " " + dayOfMonth + " " + curMonth + " " + curYear + ", " + curHour + ":" + curMinute + "." + curSeconds + ' '+ curMeridiem + " ";
+	var objToday = new Date(),
+	    weekday = new Array('Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'),
+	    dayOfWeek = weekday[objToday.getDay()],
+	    domEnder = new Array( '', '', '', '', '', '', '', '', '', '' ),
+	    dayOfMonth = today + (objToday.getDate() < 10) ? '0' + objToday.getDate() + domEnder[objToday.getDate()] : objToday.getDate() + domEnder[parseFloat(("" + objToday.getDate()).substr(("" + objToday.getDate()).length - 1))],
+	    months = new Array('Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'),
+	    curMonth = months[objToday.getMonth()],
+	    curYear = objToday.getFullYear(),
+	    curHour = objToday.getHours() > 12 ? objToday.getHours() - 12 : (objToday.getHours() < 10 ? "0" + objToday.getHours() : objToday.getHours()),
+	    curMinute = objToday.getMinutes() < 10 ? "0" + objToday.getMinutes() : objToday.getMinutes(),
+	    curSeconds = objToday.getSeconds() < 10 ? "0" + objToday.getSeconds() : objToday.getSeconds(),
+	    curMeridiem = objToday.getHours() > 12 ? "PM" : "AM";
+		today = dayOfWeek + " " + dayOfMonth + "  " + curMonth  + curYear + ", " + curHour + ":" + curMinute + "." + curSeconds + ' '+ curMeridiem + " ";
 }, 1000);
 
 app.set('view engine', 'jade');
@@ -86,6 +89,8 @@ app.get('/', function(req, res) {
 		}
 	});
 });
+
+
 
 
 app.get('/myProfil', function(req, res) {
@@ -145,7 +150,7 @@ app.get('/privateMessageEditor', function(req, res) {
 		collection.find({username:pseudoUser}, {_id:0}).toArray(function(err, data){ 
 			if(data == ''){
 				avertissement = 'Votre compte à correctement été crée ' + pseudoUser;
-				collection.insertOne({username : pseudoUser, password:passwordUser, mail:mailUser});
+				collection.insertOne({username : pseudoUser, password:passwordUser, mail:mailUser, privateMessages:{}});
 				res.send("valid");
 			}else{
 				res.send('error');
@@ -527,8 +532,10 @@ app.get('/privateMessageEditor', function(req, res) {
 		var collection = maDb.collection('utilisateurs');
 		var list = {};
 		collection.find({dataCookie:req.body.data}).toArray(function(err, data){
-			if(data[0].contactListPM != undefined){
-
+			if(data[0].privateMessages != undefined){
+				list.privateMessages = data[0].privateMessages;
+			}else{
+				//
 			}
 			res.send(list);
 		});
@@ -548,26 +555,63 @@ app.get('/privateMessageEditor', function(req, res) {
 			var thisDestinataire = data;
 			collection.find({dataCookie:destinatairePM.expediteur}).toArray(function(err, data){
 				var thisExpediteur = data;
-				var arrayPrivateMessageAndTime = [req.body.message, today]; 
-				var privateMessages = {}; //On crée un objet vide
-				if(thisDestinataire[0] != undefined){ // Si le destinataire existe
-					if(privateMessages[thisDestinataire[0].username] == undefined){
-						privateMessages[thisDestinataire[0].username] = []; //privateMessages obtient une propriété "nom de user" avec un tableau vide
-					}
-					var target = privateMessages[thisDestinataire[0].username]; //on crée une variable pour stocker la propriété qu'on vient de créer avec array vide
-					var name = thisExpediteur[0].username;//On enregistre le nom de l'expéditeur sous la forme d'une string dans une variable
-					var setModifier = { $set: {} };//On insère l'action de modification de la base de données dans un objet setModifier 
-					var newPrivateMessage = treatPrivateMessageArray(target, arrayPrivateMessageAndTime); 
+				/**** Destinataire side ****/
+				var obj = thisDestinataire[0].privateMessages; 
+				var target = thisDestinataire[0].privateMessages[thisExpediteur[0].username];
+				if(typeof target == "undefined"){
+					target = [];
+				} 
+				obj[thisExpediteur[0].username] = target;
+				var arrayPrivateMessageAndTime = [req.body.message, today, thisExpediteur[0].username];
+				obj[thisExpediteur[0].username].push(arrayPrivateMessageAndTime);
+				collection.updateOne({username:thisDestinataire[0].username} , {$set:{"privateMessages" : obj}});
 
-					setModifier.$set[name] = newPrivateMessage;
-					collection.updateOne({username:destinatairePM.receveur} , setModifier);
-					console.log(thisDestinataire[0])
-				}
-			});;
+
+
+
+				/**** Expediteur side ****/
+				var objExp = thisExpediteur[0].privateMessages; // obj est égale au message privée du destinataire
+				var targetExp = thisExpediteur[0].privateMessages[thisDestinataire[0].username];// target est égale à data[0].privateMessages[exemple.username] (privateMessages.jon_snow)
+				if(typeof targetExp == "undefined"){
+					targetExp = [];
+				} 
+				objExp[thisDestinataire[0].username] = targetExp;
+				var arrayPrivateMessageAndTimeExp = [req.body.message, today, thisExpediteur[0].username];
+				objExp[thisDestinataire[0].username].push(arrayPrivateMessageAndTimeExp);
+				collection.updateOne({username:thisExpediteur[0].username} , {$set:{"privateMessages" : objExp}});
+				res.send(thisExpediteur[0].privateMessages);
+			});
 		});
 	});
 	
+/////////////////////////////////////CHAT AND SOCKET /////////////////////////////////////////////
+io.on('connection', function(socket){
+	socket.emit('askInfoUser');
+	socket.on('new user', function(data){
+		if(userConnected.indexOf(data) != -1){
+		}else{
+			socket.nickname = data;
+			userConnected.push(socket.nickname);
+			io.emit("displayOnlineContact", {userConnected});
+		}
+	});
 
+	socket.on('disconnect', function(data){
+		userConnected.splice(userConnected.indexOf(socket.nickname), 1);
+		io.emit("displayOnlineContact", {userConnected});
+	});
+	socket.on('send message', function(data){
+		io.sockets.emit('new message', data);
+	});
+});
+
+
+app.post("/updateContactOnline", function(req, res){
+	var collection = maDb.collection('utilisateurs');
+	collection.find({dataCookie:req.body.dataCookie}).toArray(function(err, data){
+			res.send(data[0].amis)
+	});
+})
 
 /*** Fonction ***/
 

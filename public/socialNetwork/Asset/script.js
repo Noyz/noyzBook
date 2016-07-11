@@ -229,7 +229,6 @@ $(document).ready(function(){
 						data:user,
 						url:"/loadWallFriend",
 						success: function(data){
-							alert('stop')
 							window.location.href = 'http://localhost:5050/friendWall';
 						}
 					})
@@ -238,13 +237,6 @@ $(document).ready(function(){
 		});
 		
 	};
-
-	/***** Page tchat *****/
-	if(/tchat/.test(window.location.pathname)){
-		window.profilLibrary.setUserName();
-		window.profilLibrary.page_name();
-	};
-
 	/***** Page privateMessage *****/
 	if(/privateMessage/.test(window.location.pathname)){
 		window.profilLibrary.setUserName();
@@ -266,4 +258,64 @@ $(document).ready(function(){
 		  ]
 		});
 	};
+	/***** Page tchat *****/
+	if(/tchat/.test(window.location.pathname)){
+		window.profilLibrary.setUserName();
+		window.profilLibrary.page_name();
+		var socket = io.connect();
+		socket.on('askInfoUser', function(data){
+			socket.emit('new user', $('.navbar-text strong').text().substr(14));
+		});	
+		jQuery(function($){ 
+			var socket = io.connect();
+			var $messageForm = $('#sendMessageForm');
+			var $messageBox = $('#messageBox');
+			var $chat = $('.chatWindow');
+
+			$messageForm.submit(function(e){
+				e.preventDefault();
+				socket.emit("send message", {name: $('.navbar-text strong').text().substr(14), message: $messageBox.val()});
+				$messageBox.val('');
+			});
+			socket.on("new message", function(data){
+				$chat.append(data.name +' : ' + data.message + '<br>');
+			});
+		});
+
+		socket.on("displayOnlineContact", function(data){
+			$('.containerOnline li').remove();
+			var html = [];
+			for(var i = 0; i < data.userConnected.length;i++){
+				var li = '<li>'+ data.userConnected[i]+'</li>';
+				html.push(li);
+			}
+			getFriendsList(data.userConnected);
+			
+		});
+
+		var getFriendsList = function(data){
+			console.log(data);
+			var updatehtml = [];
+			$.ajax({
+				type:"POST",
+				data: {user:data, dataCookie:localStorage.getItem('noyzCookie')},
+				url:"/updateContactOnline",
+				success: function(listFriends){
+					for(var i = 0; i < data.length;i++){
+						if(listFriends.indexOf(data[i]) != -1){
+							console.log(data[i] + ' est bien est amie avec toi')
+							var li = '<li>'+ data[i]+'</li>';
+							updatehtml.push(li);
+						}else{
+							console.log(data[i] + ' nest pas avec toi')
+						}
+					}
+					$('.containerOnline').append(updatehtml);
+				}
+			});
+		};
+
+		
+	};
+	
 });
