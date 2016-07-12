@@ -18,7 +18,7 @@ var io = require('socket.io').listen(server);
 var user = {};
 var maDb;
 var today;
-var userConnected = [];
+var userConnected = {};
 var multer = require('multer');
 const socketIo = require('socket.io');
 var IOServer = socketIo(httpServer);
@@ -136,6 +136,11 @@ app.get('/tchat', function(req, res) {
 app.get('/privateMessageEditor', function(req, res) {
 	res.render('privateMessageEditor');
 });
+
+app.get('/pageChat', function(req, res) {
+	res.render('popupChat');
+});
+
 
 	
 	/*********************************************Inscription page ******************************************************/
@@ -588,20 +593,28 @@ app.get('/privateMessageEditor', function(req, res) {
 io.on('connection', function(socket){
 	socket.emit('askInfoUser');
 	socket.on('new user', function(data){
-		if(userConnected.indexOf(data) != -1){
-		}else{
-			socket.nickname = data;
-			userConnected.push(socket.nickname);
-			io.emit("displayOnlineContact", {userConnected});
-		}
+		socket.nickname = data;
+		userConnected[socket.nickname] = socket;
+		io.emit("displayOnlineContact", Object.keys(userConnected));
 	});
 
 	socket.on('disconnect', function(data){
-		userConnected.splice(userConnected.indexOf(socket.nickname), 1);
-		io.emit("displayOnlineContact", {userConnected});
+		delete userConnected[socket.nickname];
+		io.emit("displayOnlineContact", Object.keys(userConnected));
 	});
+
+	socket.on('sendInvitation', function(data){
+		userConnected[data.userClicked].emit('notificationInvitation', data.currentUser);
+	});
+
+	socket.on('openNewChatBox', function(data){
+		userConnected[data].emit('chatOpen', socket.nickname);
+		userConnected[socket.nickname].emit('chatOpen', data);
+	});
+
 	socket.on('send message', function(data){
-		io.sockets.emit('new message', data);
+		userConnected[socket.nickname].emit('new message', {exp:socket.nickname, msg:data.message, dest:data.messageTo});
+		userConnected[data.messageTo].emit('new message', {exp:socket.nickname , msg:data.message, dest:socket.nickname});
 	});
 });
 

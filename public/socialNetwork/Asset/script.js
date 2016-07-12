@@ -266,35 +266,22 @@ $(document).ready(function(){
 		socket.on('askInfoUser', function(data){
 			socket.emit('new user', $('.navbar-text strong').text().substr(14));
 		});	
-		jQuery(function($){ 
-			var socket = io.connect();
-			var $messageForm = $('#sendMessageForm');
-			var $messageBox = $('#messageBox');
-			var $chat = $('.chatWindow');
-
-			$messageForm.submit(function(e){
-				e.preventDefault();
-				socket.emit("send message", {name: $('.navbar-text strong').text().substr(14), message: $messageBox.val()});
-				$messageBox.val('');
-			});
-			socket.on("new message", function(data){
-				$chat.append(data.name +' : ' + data.message + '<br>');
-			});
-		});
-
 		socket.on("displayOnlineContact", function(data){
+			// console.log(data)
 			$('.containerOnline li').remove();
 			var html = [];
-			for(var i = 0; i < data.userConnected.length;i++){
-				var li = '<li>'+ data.userConnected[i]+'</li>';
+
+			for(var i = 0; i < data.length;i++){
+				var li = '<li>'+ data[i]+'</li>';
 				html.push(li);
 			}
-			getFriendsList(data.userConnected);
+			// console.log(data)
+			getFriendsList(data);
 			
 		});
 
 		var getFriendsList = function(data){
-			console.log(data);
+			// console.log(data);
 			var updatehtml = [];
 			$.ajax({
 				type:"POST",
@@ -303,19 +290,57 @@ $(document).ready(function(){
 				success: function(listFriends){
 					for(var i = 0; i < data.length;i++){
 						if(listFriends.indexOf(data[i]) != -1){
-							console.log(data[i] + ' est bien est amie avec toi')
-							var li = '<li>'+ data[i]+'</li>';
+							// console.log(data[i] + ' est bien est amie avec toi')
+							var li = '<li class="chatWith" title="Envoie d\'une invitation de chat à '+ data[i] +' "><a>'+ data[i] +'</a></li>';
 							updatehtml.push(li);
 						}else{
-							console.log(data[i] + ' nest pas avec toi')
+							// console.log(data[i] + ' nest pas avec toi')
 						}
 					}
 					$('.containerOnline').append(updatehtml);
+					chatInvitation();
 				}
 			});
 		};
 
-		
+		var chatInvitation = function(){
+			$('.chatWith a').click(function(){
+				socket.emit("sendInvitation", {userClicked : $(this).text(), currentUser : $('.navbar-text strong').text().substr(14)})
+				$(this).append('<p id="invitationChatStatus">En attente de confirmation </p>');
+			});
+		};
+
+		socket.on('notificationInvitation', function(data){
+			$('.chatWith').each(function(x){
+				if($(this).text() == data){
+					$(this).append('<div><p class="accepterChat chatOffer">Accepter</p> <p class="refuserChat chatOffer">Refuser</p></div>');
+					gestionInvitationChatStatus(data);
+				}
+			});
+		});
+
+		var gestionInvitationChatStatus = function(data){
+			$('.accepterChat').click(function(){
+				socket.emit('openNewChatBox', data);
+			});
+		};
+		socket.on('chatOpen', function(data){
+			$('.contactOnline').after('<div class="userChat"><p><span>Afficher</span> discussion avec '+ data +'</p><div class="chatScreen"><div class="chatWindow"></div><form class="chatForm"><textarea class="chatBox" style="width:80%"></textarea><input type="submit"/></form></div></div>');
+			$('.chatForm').submit(function(e){
+				e.preventDefault();
+					socket.emit("send message", {messageTo:data, message: $('.chatBox').val()});
+					$('.chatBox').val('');
+			});
+			socket.on("new message", function(data){
+				for(var i = 0; i < $('div.userChat').length;i++){
+					if($('.userChat').find('p').text().substr(25) == data.exp){
+						$(this).find('.chatWindow').append(data.exp +' : ' + data.msg + '<br>');
+					}
+				}
+			});
+		});
+
+
 	};
 	
 });

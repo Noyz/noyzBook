@@ -480,14 +480,21 @@ input[name="submitMessage"] {
   height: 500px;
   width: 80%;
   border: 1px solid black;
-  float: left;
 }
 
 .contactOnline {
-  float: left;
   width: 20%;
   height: auto;
   border: 1px solid yellow;
+}
+
+.contactOnline .chatWith {
+  cursor: pointer;
+}
+
+.chatOffer:hover {
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .chatEditor {
